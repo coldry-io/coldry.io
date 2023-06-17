@@ -36,9 +36,11 @@ jobs:
         run: yarn install
 
       - name: Run prettier check
+        id: prettier-check
         run: yarn prettier:check
 
       - name: Run eslint check
+        id: eslint-check
         run: yarn eslint:format
 
       - uses: act10ns/slack@v1
@@ -115,11 +117,13 @@ jobs:
         run: yarn install
 
       - name: Build nextjs
+        id: nextjs-build
         run: yarn build
         env:
           CI: true
 
       - name: Build storybook
+        id: storybook-build
         run: yarn storybook:build
         env:
           CI: true
