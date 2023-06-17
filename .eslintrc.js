@@ -22,9 +22,10 @@ module.exports = {
       extends: ['plugin:testing-library/react']
     },
     {
-      files: ['./prettier.config.js'],
+      files: ['./prettier.config.js', './src/components/ui/Toast.tsx'],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off'
+        '@typescript-eslint/no-var-requires': 'off',
+        'prettier/prettier': 'off'
       }
     }
   ],

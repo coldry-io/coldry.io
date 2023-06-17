@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserNav should render the UserNav 1`] = `
+<DocumentFragment>
+  <span
+    aria-expanded="false"
+    aria-haspopup="menu"
+    class="relative flex shrink-0 overflow-hidden rounded-full h-8 w-8 cursor-pointer"
+    data-state="closed"
+    id="radix-:r0:"
+    type="button"
+  />
+</DocumentFragment>
+`;

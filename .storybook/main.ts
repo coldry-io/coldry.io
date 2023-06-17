@@ -16,7 +16,13 @@ const config: StorybookConfig = {
     autodocs: 'tag'
   },
   webpackFinal: async (config) => {
-    if (config.resolve?.alias) config.resolve.alias['@'] = path.resolve(__dirname, '../');
+    if (config.resolve?.alias) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@': path.resolve(__dirname, '../'),
+        'next/router': 'next-router-mock'
+      };
+    }
     return config;
   }
 };
