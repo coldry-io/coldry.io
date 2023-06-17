@@ -9,7 +9,19 @@ module.exports = {
   printWidth: 100,
   singleQuote: true,
   trailingComma: 'none',
-  importOrder: ['^next', '^react', '', '^@/styles', '', '^@/components', '', '^@/lib', '', '^[./]'],
+  importOrder: [
+    '^next',
+    '^react',
+    '^zod',
+    '',
+    '^@/styles',
+    '',
+    '^@/components',
+    '',
+    '^@/lib',
+    '',
+    '^[./]'
+  ],
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
   plugins: [
     {

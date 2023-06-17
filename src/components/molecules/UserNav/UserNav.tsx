@@ -35,7 +35,9 @@ const UserNav: React.FC<UserNavProps> = ({ user }) => {
           {user.image ? (
             <AvatarImage src={user.image} alt={user.name ?? 'Profile Picture'} />
           ) : (
-            <AvatarFallback className="bg-coldry-black">{getAvatarFallback()}</AvatarFallback>
+            <AvatarFallback className="bg-coldry-black text-coldry-white">
+              {getAvatarFallback()}
+            </AvatarFallback>
           )}
         </Avatar>
       </DropdownMenuTrigger>
