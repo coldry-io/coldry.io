@@ -9,12 +9,13 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-
   slack:
+    name: Slack notifications
+    runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-      - name: Slack Notification
+      - name: Setup slack notification
         uses: act10ns/slack@v1
         with:
           status: starting
@@ -114,5 +115,3 @@ jobs:
         run: yarn storybook:build
         env:
           CI: true
-
-
