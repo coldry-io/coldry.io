@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { RedirectType } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 
@@ -6,7 +7,12 @@ import { UserAuthForm } from '@/components/organisms/UserAuthForm';
 
 import { getAuthSession } from '@/lib/auth';
 
-export default async function LoginPage() {
+export const metadata: Metadata = {
+  title: 'Signup',
+  description: 'Create your account'
+};
+
+export default async function SignupPage() {
   const session = await getAuthSession();
 
   if (session) redirect('/dashboard', RedirectType.replace);

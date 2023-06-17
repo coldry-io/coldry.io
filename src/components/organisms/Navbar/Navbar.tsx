@@ -37,7 +37,13 @@ const Navbar: React.FC<NavbarProps> = ({ session }) => {
       <nav className="fixed inset-x-0 top-0 z-20 w-full border-b border-b-coldry-gray bg-white">
         <div className="mx-auto justify-between px-8 md:flex md:items-center md:px-4 lg:max-w-7xl">
           <div className="flex items-center justify-between py-3 md:block md:py-5">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <button
+              onClick={() =>
+                window.location.pathname === '/'
+                  ? window.scrollTo({ top: 0, behavior: 'smooth' })
+                  : router.push('/')
+              }
+            >
               <Icons.Logo width={143} height={39} />
             </button>
 

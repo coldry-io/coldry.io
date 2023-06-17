@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { RedirectType } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 
@@ -6,6 +7,11 @@ import { ErrorHandler } from '@/components/atoms/ErrorHandler';
 import { UserAuthForm } from '@/components/organisms/UserAuthForm';
 
 import { getAuthSession } from '@/lib/auth';
+
+export const metadata: Metadata = {
+  title: 'Login',
+  description: 'Log in to your account'
+};
 
 export default async function LoginPage({
   searchParams
