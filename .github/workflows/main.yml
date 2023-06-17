@@ -9,109 +9,124 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  slack:
-    name: Slack notifications
+  formatting:
+    name: Formatting check
     runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
     steps:
-      - name: Setup slack notification
+      - name: Slack
         uses: act10ns/slack@v1
         with:
           status: starting
           channel: '#version-control'
+          message: Starting formatting checks
         if: always()
 
-  prettier-check:
-    name: Prettier check
-    runs-on: ubuntu-latest
-    env:
-      SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
-    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
+
       - name: Install dependencies
         run: yarn install
+
       - name: Run prettier check
         run: yarn prettier:check
 
-  eslint-check:
-    name: Eslint check
-    runs-on: ubuntu-latest
-    env:
-      SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: yarn install
       - name: Run eslint check
         run: yarn eslint:format
 
-  jest-check:
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#version-control'
+        if: always()
+
+  tests:
     name: Tests - jest
-    needs: [prettier-check, eslint-check]
+    needs: [formatting]
     runs-on: ubuntu-latest
     env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
     steps:
+      - name: Slack
+        uses: act10ns/slack@v1
+        with:
+          status: starting
+          channel: '#version-control'
+          message: Starting tests
+        if: always()
+
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
+
       - name: Install dependencies
         run: yarn install
+
       - name: Run tests
         run: yarn test:ci
         env:
           CI: true
 
-  nextjs-build-check:
-    name: Build nextjs application
-    needs: [jest-check]
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#version-control'
+        if: always()
+
+  builds:
+    name: Builds - nextjs & storybook
+    needs: [tests]
     runs-on: ubuntu-latest
     env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
     steps:
+      - name: Slack
+        uses: act10ns/slack@v1
+        with:
+          status: starting
+          channel: '#version-control'
+          message: Starting builds
+        if: always()
+
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
+
       - name: Install dependencies
         run: yarn install
+
       - name: Build nextjs
         run: yarn build
         env:
           CI: true
 
-  storybook-build-check:
-    name: Build storybook application
-    needs: [jest-check]
-    runs-on: ubuntu-latest
-    env:
-      SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: yarn install
       - name: Build storybook
         run: yarn storybook:build
         env:
           CI: true
+
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#version-control'
+        if: always()
