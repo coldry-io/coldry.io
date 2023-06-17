@@ -27,6 +27,12 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         'prettier/prettier': 'off'
       }
+    },
+    {
+      files: ['./src/lib/declarations/next-auth.d.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'off'
+      }
     }
   ],
   parser: '@typescript-eslint/parser',
