@@ -34,6 +34,13 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'off',
         'no-var': 'off'
       }
+    },
+    {
+      files: ['./src/app/api/auth/**/*'],
+      rules: {
+        'import-helpers/order-imports': 'off',
+        'no-console': 'off'
+      }
     }
   ],
   parser: '@typescript-eslint/parser',

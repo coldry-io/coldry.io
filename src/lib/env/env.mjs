@@ -22,6 +22,7 @@ export const env = createEnv({
     EMAIL_SERVER_HOST: z.string(),
 
     NEXTAUTH_SECRET: z.string(),
+    NEXTAUTH_URL: z.string(),
     NEXTAUTH_PROVIDER_EMAIL_VERIFICATION_SECRET: z.string()
   },
   client: {
@@ -41,6 +42,7 @@ export const env = createEnv({
     EMAIL_SERVER_HOST: process.env.EMAIL_SERVER_HOST,
 
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_PROVIDER_EMAIL_VERIFICATION_SECRET:
       process.env.NEXTAUTH_PROVIDER_EMAIL_VERIFICATION_SECRET
   }
