@@ -29,9 +29,10 @@ module.exports = {
       }
     },
     {
-      files: ['./src/lib/declarations/next-auth.d.ts'],
+      files: ['./src/lib/declarations/*'],
       rules: {
-        '@typescript-eslint/no-unused-vars': 'off'
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-var': 'off'
       }
     }
   ],

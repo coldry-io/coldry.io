@@ -9,6 +9,18 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+
+  slack:
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Slack Notification
+        uses: act10ns/slack@v1
+        with:
+          status: starting
+          channel: '#version-control'
+        if: always()
+
   prettier-check:
     name: Prettier check
     runs-on: ubuntu-latest
@@ -102,3 +114,5 @@ jobs:
         run: yarn storybook:build
         env:
           CI: true
+
+
