@@ -24,6 +24,8 @@ module.exports = {
     '',
     '^@/actions',
     '',
+    '^@/providers',
+    '',
     '^[./]'
   ],
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],

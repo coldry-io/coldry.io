@@ -79,6 +79,7 @@ module.exports = {
           '/^@/lib/',
           '/^@/hooks/',
           '/^@/actions/',
+          '/^@/providers/',
           ['parent', 'sibling', 'index']
         ],
         alphabetize: {
