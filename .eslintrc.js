@@ -77,6 +77,8 @@ module.exports = {
           '/^@/styles/',
           '/^@/components/',
           '/^@/lib/',
+          '/^@/hooks/',
+          '/^@/actions/',
           ['parent', 'sibling', 'index']
         ],
         alphabetize: {

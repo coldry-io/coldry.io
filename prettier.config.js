@@ -20,6 +20,10 @@ module.exports = {
     '',
     '^@/lib',
     '',
+    '^@/hooks',
+    '',
+    '^@/actions',
+    '',
     '^[./]'
   ],
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],

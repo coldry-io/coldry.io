@@ -3,6 +3,7 @@
     "incremental": true, // https://nextjs.org/docs/basic-features/typescript#incremental-type-checking
     "baseUrl": ".",
     "paths": {
+      "@/actions/*": ["./src/actions/*"],
       "@/components/*": ["./src/components/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/public/*": ["./public/*"],
