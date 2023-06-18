@@ -1,7 +1,6 @@
 /* eslint @typescript-eslint/ban-ts-comment: 0 */
 'use client';
 
-import { toast } from '@/hooks/useToast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -16,6 +15,8 @@ import { Label } from '@/components/atoms/Label';
 
 import { cn, Icons } from '@/lib/utils';
 import { LoginSchema, SignupSchema } from '@/lib/validations';
+
+import { toast } from '@/hooks/useToast';
 
 type FormData = z.infer<typeof LoginSchema | typeof SignupSchema>;
 
@@ -35,11 +36,12 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
   const [isLoading, setIsLoading] = useState(LoadingType.NONE);
 
   const {
+    clearErrors,
+    formState: { errors },
     handleSubmit,
     register,
-    resetField,
-    formState: { errors },
-    clearErrors
+    reset,
+    resetField
   } = useForm<FormData>({
     resolver: zodResolver(type === 'login' ? LoginSchema : SignupSchema)
   });
@@ -133,12 +135,12 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
             description: r.message,
             variant: 'default'
           });
-          await handleLogin(data);
+          reset();
         })
         .catch((e) =>
           toast({
             title: 'Error',
-            description: JSON.stringify(e),
+            description: e.message,
             variant: 'destructive'
           })
         )
