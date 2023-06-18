@@ -1,3 +1,3 @@
-import ColdryVerifyEmail, { ColdryVerifyPlain } from './VerifyEmail';
+import ColdryVerifyEmail from './VerifyEmail';
 
-export { ColdryVerifyEmail, ColdryVerifyPlain };
+export { ColdryVerifyEmail };

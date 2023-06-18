@@ -63,14 +63,14 @@ model User {
     @@map(name: "users")
 }
 
-model VerificationToken {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    identifier String
-    token      String   @unique
-    expires    DateTime
+model UnVerifiedUser {
+    id             String   @id @default(auto()) @map("_id") @db.ObjectId
+    name           String?
+    email          String?  @unique
+    hashedPassword String?
+    createdAt      DateTime @default(now()) @map(name: "created_at")
 
-    @@unique([identifier, token])
-    @@map(name: "verification_tokens")
+    @@map(name: "unverified_users")
 }
 
 model Plan {

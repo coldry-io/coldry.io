@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-import { ColdryVerifyEmail, ColdryVerifyPlain } from '@/components/emails';
+import { ColdryVerifyEmail } from '@/components/emails';
 
 import { env } from '@/lib/env';
 import prisma from '@/lib/prisma';
@@ -15,8 +15,23 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, name, password } = body;
 
+    const [existingUser, existingUserUnverified] = await prisma.$transaction([
+      prisma.user.findFirst({
+        where: { email }
+      }),
+      prisma.unVerifiedUser.findFirst({
+        where: { email }
+      })
+    ]);
+
+    if (existingUser || existingUserUnverified) {
+      throw new Error(
+        existingUser ? 'Account already exists' : 'Please check your email to verify your account'
+      );
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = await prisma.user.create({
+    const user = await prisma.unVerifiedUser.create({
       data: {
         email,
         name,
@@ -28,26 +43,36 @@ export async function POST(request: Request) {
       expiresIn: '7d'
     });
 
+    const { react, text } = ColdryVerifyEmail({
+      name,
+      verificationUrl: `${env.NEXTAUTH_URL}/verify/${token}`
+    });
+
     resend.sendEmail({
       from: 'Coldry <noreply@coldry.io>',
       to: email,
-      subject: 'Verify your email',
-      text: ColdryVerifyPlain({
-        name,
-        verificationUrl: `${env.NEXTAUTH_URL}/api/verify?token=${token}&email=${email}`
-      }),
-      react: ColdryVerifyEmail({
-        name,
-        verificationUrl: `${env.NEXTAUTH_URL}/api/verify?token=${token}&email=${email}`
-      })
+      subject: 'Please verify your email address',
+      text,
+      react
     });
 
-    return new NextResponse(JSON.stringify({ message: 'Account created successfully' }), {
-      status: 201
-    });
+    return new NextResponse(
+      JSON.stringify({
+        message: 'Account created successfully. Please check your email to verify your account'
+      }),
+      {
+        status: 201
+      }
+    );
   } catch (error) {
-    return new NextResponse(JSON.stringify({ message: error }), {
-      status: 500
-    });
+    if (error instanceof Error)
+      return new NextResponse(JSON.stringify({ message: error.message }), { status: 500 });
+
+    return new NextResponse(
+      JSON.stringify({ message: 'An error occured. Please try again later.' }),
+      {
+        status: 500
+      }
+    );
   }
 }
