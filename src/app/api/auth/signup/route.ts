@@ -8,8 +8,7 @@ import { ColdryVerifyEmail, ColdryVerifyPlain } from '@/components/emails';
 import { env } from '@/lib/env';
 import prisma from '@/lib/prisma';
 
-// FIXME: Temporary fix for CI
-const resend = new Resend(env.RESEND_API_KEY ?? '');
+const resend = new Resend(env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
