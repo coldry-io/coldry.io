@@ -28,7 +28,8 @@ export default async function verifyUser(token: string) {
           email: unverifiedUser.email,
           name: unverifiedUser.name,
           hashedPassword: unverifiedUser.hashedPassword,
-          emailVerified: new Date(Date.now())
+          emailVerified: new Date(Date.now()),
+          createdAt: unverifiedUser.createdAt
         }
       }),
       prisma.unVerifiedUser.delete({
