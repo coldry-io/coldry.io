@@ -121,7 +121,7 @@ jobs:
         run: yarn build
         env:
           CI: true
-          RESEND_API_KEY: "string"
+          RESEND_API_KEY: 'string'
 
       - name: Build storybook
         id: storybook-build
