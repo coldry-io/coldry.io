@@ -16,14 +16,6 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
     steps:
-      - name: Slack
-        uses: act10ns/slack@v1
-        with:
-          status: starting
-          channel: '#version-control'
-          message: Starting formatting checks
-        if: always()
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -48,7 +40,7 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#version-control'
-        if: always()
+        if: failure()
 
   tests:
     name: Tests - jest
@@ -58,14 +50,6 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
     steps:
-      - name: Slack
-        uses: act10ns/slack@v1
-        with:
-          status: starting
-          channel: '#version-control'
-          message: Starting tests
-        if: always()
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -87,7 +71,7 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#version-control'
-        if: always()
+        if: failure()
 
   builds:
     name: Builds - nextjs & storybook
@@ -97,14 +81,6 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SKIP_ENV_VALIDATION: ${{ secrets.SKIP_ENV_VALIDATION }}
     steps:
-      - name: Slack
-        uses: act10ns/slack@v1
-        with:
-          status: starting
-          channel: '#version-control'
-          message: Starting builds
-        if: always()
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -134,4 +110,4 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#version-control'
-        if: always()
+        if: failure()
