@@ -6,10 +6,11 @@ import { ReactNode } from 'react';
 
 import { TailwindIndicator } from '@/components/dev/TailwindIndicator';
 import Navbar from '@/components/organisms/Navbar';
-import { Toaster } from '@/components/providers/ToastProvider';
 
 import { getAuthSession } from '@/lib/auth';
 import { cn } from '@/lib/utils';
+
+import { Toaster } from '@/providers/ToastProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

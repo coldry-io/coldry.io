@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async session({ token, session }) {
+    session: async ({ token, session }) => {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-    async jwt({ token, user }) {
+    jwt: async ({ token, user }) => {
       const currentUser = await prisma.user.findUnique({
         where: {
           email: token.email as string
@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
         picture: currentUser.image
       };
     },
-    redirect({ url, baseUrl }) {
+    redirect: ({ url, baseUrl }) => {
       return url.startsWith(baseUrl) ? url : baseUrl;
     }
   },
