@@ -4263,6 +4263,13 @@
   dependencies:
     tslib "^2.4.0"
 
+"@zxcvbn-ts/core@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@zxcvbn-ts/core/-/core-3.0.2.tgz#61bdc1f6b8a026e4ce9e9e06928040809fa10525"
+  integrity sha512-0IcC51nu4ium8H+89RcsEio+BHADtAPElkhHLd2kYr027+cPFg9Y0+tedLAxNKU+iHgMW0n2ajG/JVua5uV/fQ==
+  dependencies:
+    fastest-levenshtein "1.0.16"
+
 abab@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
@@ -6916,6 +6923,11 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
 
+fastest-levenshtein@1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/fastest-levenshtein/-/fastest-levenshtein-1.0.16.tgz#210e61b6ff181de91ea9b3d1b84fdedd47e034e5"
+  integrity sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==
+
 fastq@^1.6.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.15.0.tgz#d04d07c6a2a68fe4599fea8d2e103a937fae6b3a"
@@ -9155,6 +9167,11 @@ lower-case@^2.0.2:
   dependencies:
     tslib "^2.0.3"
 
+lru-cache@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.0.0.tgz#b9e2a6a72a129d81ab317202d93c7691df727e61"
+  integrity sha512-svTf/fzsKHffP42sujkO/Rjs37BCIsQVRCeNYIm9WN8rgT7ffoUnRtZCqU+6BqcSBdv8gwJeTz8knJpgACeQMw==
+
 lru-cache@^4.1.5:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
@@ -9488,6 +9505,13 @@ next-auth@^4.22.1:
     preact "^10.6.3"
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
+
+next-rate-limit@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/next-rate-limit/-/next-rate-limit-0.0.3.tgz#f38b2ba6f13b77022d299fe2976a30c932d471e4"
+  integrity sha512-2VYgvxs1Mh1u4JGaxGu+dyNHUlpGOniCagZoQcqcTlsQS4OVQ4Dh3SU0mFlG2P1X2VlDN1lrjPpnaybFaGesbQ==
+  dependencies:
+    lru-cache "^10.0.0"
 
 next-router-mock@^0.9.6:
   version "0.9.6"

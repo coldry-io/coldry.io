@@ -1,8 +1,8 @@
-/* eslint @typescript-eslint/ban-ts-comment: 0 */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ import { Button } from '@/components/atoms/Button';
 import { CardContent, CardFooter } from '@/components/atoms/Card';
 import { Input } from '@/components/atoms/Input';
 import { Label } from '@/components/atoms/Label';
+import { PasswordStrength } from '@/components/atoms/PasswordStrength';
 
 import { cn, Icons } from '@/lib/utils';
 import { LoginSchema, SignupSchema } from '@/lib/validations';
@@ -34,6 +35,15 @@ enum LoadingType {
 const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(LoadingType.NONE);
+  const formSchema = type === 'login' ? LoginSchema : SignupSchema;
+  const errorsOrder = [
+    'firstName',
+    'lastName',
+    'email',
+    'password',
+    'confirmPassword',
+    'passMatch'
+  ];
 
   const {
     clearErrors,
@@ -41,10 +51,13 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
     handleSubmit,
     register,
     reset,
-    resetField
-  } = useForm<FormData>({
-    resolver: zodResolver(type === 'login' ? LoginSchema : SignupSchema)
+    resetField,
+    watch
+  } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema)
   });
+
+  const password = watch('password');
 
   const linkedInLogin = async () => {
     try {
@@ -79,7 +92,8 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
   const handleLogin = async (data: FormData) => {
     await signIn('credentials', {
       ...data,
-      redirect: false
+      redirect: false,
+      callbackUrl: window.location.origin
     })
       .then((callback) => {
         if (callback?.error) {
@@ -153,7 +167,7 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent className={cn('grid gap-4', className)} {...props}>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid gap-2 md:grid-cols-2">
           <Button
             onClick={() => linkedInLogin()}
             disabled={isLoading === LoadingType.LINKEDIN}
@@ -188,30 +202,58 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
           </div>
         </div>
         <div className="grid gap-2">
-          {/* FIXME: Type safe error handling */}
-          {(errors?.email || errors?.password) && (
+          {Object.keys(errors).some((field) => errors[field as keyof typeof errors]) && (
             <div className="mb-2 w-full rounded bg-destructive p-4 text-destructive-foreground">
               <h2 className="font-semibold">Please fix the following errors:</h2>
               <ul className="list-inside list-disc">
-                {/* @ts-ignore */}
-                {errors?.name && (
-                  // @ts-ignore
-                  <li className="ml-2 text-white">{errors.name.message}</li>
-                )}
-                {errors?.email && <li className="ml-2 text-white">{errors.email.message}</li>}
-                {errors?.password && <li className="ml-2 text-white">{errors.password.message}</li>}
+                {Object.keys(errors)
+                  .sort((a, b) => errorsOrder.indexOf(a) - errorsOrder.indexOf(b))
+                  .map((field) => (
+                    <li key={field} className="ml-2 text-white">
+                      {errors[field as keyof typeof errors]?.message}
+                    </li>
+                  ))}
               </ul>
             </div>
           )}
 
           {type === 'signup' && (
-            <>
-              {/* @ts-ignore */}
-              <Label htmlFor="email" className={errors.name && 'text-red-500'}>
-                Name
-              </Label>
-              <Input id="name" type="text" placeholder="John Doe" {...register('name')} />
-            </>
+            <div className="grid gap-2 md:grid-cols-2">
+              <div className="grid gap-2">
+                <Label
+                  htmlFor="firstName"
+                  className={cn('firstName' in errors && errors.firstName && 'text-red-500')}
+                >
+                  First Name
+                </Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="John"
+                  {...register('firstName', {
+                    required: true,
+                    onChange: () => clearErrors('firstName')
+                  })}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label
+                  htmlFor="lastName"
+                  className={cn('lastName' in errors && errors.lastName && 'text-red-500')}
+                >
+                  Last Name
+                </Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="Doe"
+                  {...register('lastName', {
+                    required: true,
+                    onChange: () => clearErrors('lastName')
+                  })}
+                />
+              </div>
+            </div>
           )}
         </div>
         <div className="grid gap-2">
@@ -222,29 +264,87 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
             id="email"
             type="email"
             placeholder="example@mail.com"
-            {...register('email', { required: true, onChange: clearErrors })}
+            {...register('email', { required: true, onChange: () => clearErrors('email') })}
           />
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="password" className={errors.password && 'text-red-500'}>
-            Password
-          </Label>
-          <Input
-            id="password"
-            placeholder="Password"
-            type="password"
-            {...register('password', { required: true, onChange: clearErrors })}
-          />
+        <div className={cn('grid gap-2', type === 'signup' && 'md:grid-cols-2')}>
+          <div className="grid gap-2">
+            <Label htmlFor="password" className={errors.password && 'text-red-500'}>
+              Password
+            </Label>
+            <Input
+              id="password"
+              placeholder="Password"
+              type="password"
+              autoComplete="none"
+              {...register('password', {
+                required: true,
+                onChange: () => clearErrors('password')
+              })}
+            />
+          </div>
+          {type === 'signup' ? (
+            <div className="grid gap-2">
+              <Label
+                htmlFor="confirmPassword"
+                className={cn(
+                  'confirmPassword' in errors && errors.confirmPassword && 'text-red-500'
+                )}
+              >
+                Confirm Password
+              </Label>
+              <Input
+                id="confirmPassword"
+                placeholder="Confirm Password"
+                type="password"
+                autoComplete="none"
+                {...register('confirmPassword', {
+                  required: true,
+                  onChange: () => clearErrors('confirmPassword')
+                })}
+              />
+            </div>
+          ) : (
+            <Link
+              className="text-sm text-coldry-blue transition-colors duration-300 hover:text-coldry-black"
+              href="/login"
+            >
+              Forgot password?
+            </Link>
+          )}
         </div>
+        {type === 'signup' && password && <PasswordStrength password={password} />}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="grid gap-4 text-center">
         <Button className="w-full" disabled={isLoading === LoadingType.FORM}>
           {isLoading === LoadingType.FORM && (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           )}
           {type === 'login' ? 'Login' : 'Create account'}
         </Button>
+
+        {type === 'login' ? (
+          <p className="text-sm text-muted-foreground">
+            New to Coldry?{' '}
+            <Link
+              className="text-coldry-blue transition-colors duration-300 hover:text-coldry-black"
+              href="/signup"
+            >
+              Sign Up
+            </Link>
+          </p>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <Link
+              className="text-coldry-blue transition-colors duration-300 hover:text-coldry-black"
+              href="/login"
+            >
+              Login
+            </Link>
+          </p>
+        )}
       </CardFooter>
     </form>
   );
