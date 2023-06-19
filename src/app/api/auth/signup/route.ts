@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Resend } from 'resend';
-import { NextResponse } from 'next/server';
+import rateLimit from 'next-rate-limit';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { ColdryVerifyEmail } from '@/components/emails';
 
@@ -10,10 +11,17 @@ import prisma from '@/lib/prisma';
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export async function POST(request: Request) {
+const limiter = rateLimit({
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 500
+});
+
+export async function POST(request: NextRequest) {
   try {
+    const headers = limiter.checkNext(request, 10);
+
     const body = await request.json();
-    const { email, name, password } = body;
+    const { email, firstName, lastName, password } = body;
 
     const [existingUser, existingUserUnverified] = await prisma.$transaction([
       prisma.user.findFirst({
@@ -34,7 +42,7 @@ export async function POST(request: Request) {
     const user = await prisma.unVerifiedUser.create({
       data: {
         email,
-        name,
+        name: `${firstName} ${lastName}`,
         hashedPassword
       }
     });
@@ -44,7 +52,7 @@ export async function POST(request: Request) {
     });
 
     const { react, text } = ColdryVerifyEmail({
-      name,
+      name: firstName,
       verificationUrl: `${env.NEXTAUTH_URL}/verify/${token}`
     });
 
@@ -61,12 +69,15 @@ export async function POST(request: Request) {
         message: 'Account created successfully. Please check your email to verify your account'
       }),
       {
-        status: 201
+        status: 201,
+        headers
       }
     );
   } catch (error) {
     if (error instanceof Error)
-      return new NextResponse(JSON.stringify({ message: error.message }), { status: 500 });
+      return new NextResponse(JSON.stringify({ message: error.message }), {
+        status: error.message === 'Rate limit exceeded' ? 429 : 500
+      });
 
     return new NextResponse(
       JSON.stringify({ message: 'An error occured. Please try again later.' }),

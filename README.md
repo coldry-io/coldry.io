@@ -1,11 +1,23 @@
 ## Coldry Roadmap
 
-- [ ] Auth
+- [x] Auth
   - [x] Login
-  - [ ] Sign Up
+  - [x] Sign Up
     - [x] Duplicate user check
-    - [ ] Password complexity check
-    - [ ] Rate limiting
+    - [x] Password complexity check
+    - [x] Rate limiting
 - [x] Email
   - [x] Send verificiation email
   - [x] Verify user emails
+
+## Next Steps
+
+#### Auth
+
+- [ ] Password Reset
+
+#### Dashboard
+
+- [ ] Creating team
+  - [ ] Inviting members
+  - [ ] Inviting outside via email

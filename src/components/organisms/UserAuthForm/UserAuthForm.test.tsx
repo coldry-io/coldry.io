@@ -32,13 +32,19 @@ describe('UserAuthForm', () => {
     screen.getByRole('button', { name: /Google/i });
     screen.getByRole('button', { name: /Create account/i });
 
-    expect(screen.getAllByRole('textbox')).toHaveLength(2);
+    expect(screen.getAllByRole('textbox')).toHaveLength(3);
 
-    expect(screen.getByText('Name')).toBeInTheDocument();
-    screen.getByPlaceholderText('John Doe');
-    expect(screen.getByPlaceholderText('John Doe')).toHaveAttribute('type', 'text');
-    expect(screen.getByPlaceholderText('John Doe')).toHaveAttribute('name', 'name');
-    expect(screen.getByPlaceholderText('John Doe')).toHaveAttribute('id', 'name');
+    expect(screen.getByText('First Name')).toBeInTheDocument();
+    screen.getByPlaceholderText('John');
+    expect(screen.getByPlaceholderText('John')).toHaveAttribute('type', 'text');
+    expect(screen.getByPlaceholderText('John')).toHaveAttribute('name', 'firstName');
+    expect(screen.getByPlaceholderText('John')).toHaveAttribute('id', 'firstName');
+
+    expect(screen.getByText('Last Name')).toBeInTheDocument();
+    screen.getByPlaceholderText('Doe');
+    expect(screen.getByPlaceholderText('Doe')).toHaveAttribute('type', 'text');
+    expect(screen.getByPlaceholderText('Doe')).toHaveAttribute('name', 'lastName');
+    expect(screen.getByPlaceholderText('Doe')).toHaveAttribute('id', 'lastName');
 
     expect(screen.getByText('Email')).toBeInTheDocument();
     screen.getByPlaceholderText('example@mail.com');
@@ -48,5 +54,8 @@ describe('UserAuthForm', () => {
 
     expect(screen.getByText('Password')).toBeInTheDocument();
     screen.getByPlaceholderText('Password');
+
+    expect(screen.getByText('Confirm Password')).toBeInTheDocument();
+    screen.getByPlaceholderText('Confirm Password');
   });
 });
