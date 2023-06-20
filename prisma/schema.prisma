@@ -33,14 +33,15 @@ model Account {
 }
 
 model User {
-    id             String    @id @default(auto()) @map("_id") @db.ObjectId
-    name           String?
-    email          String?   @unique
-    emailVerified  DateTime?
-    image          String?
-    hashedPassword String?
-    createdAt      DateTime  @default(now()) @map(name: "created_at")
-    updatedAt      DateTime  @default(now()) @map(name: "updated_at")
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    givenName     String?   @map(name: "given_name")
+    familyName    String?   @map(name: "family_name")
+    email         String?   @unique
+    emailVerified DateTime? @map(name: "email_verified")
+    password      String?
+    image         String?
+    createdAt     DateTime  @default(now()) @map(name: "created_at")
+    updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
     // Account
     accounts Account[]
@@ -64,11 +65,12 @@ model User {
 }
 
 model UnVerifiedUser {
-    id             String   @id @default(auto()) @map("_id") @db.ObjectId
-    name           String?
-    email          String?  @unique
-    hashedPassword String?
-    createdAt      DateTime @default(now()) @map(name: "created_at")
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    givenName  String?  @map(name: "given_name")
+    familyName String?  @map(name: "family_name")
+    email      String?  @unique
+    password   String?
+    createdAt  DateTime @default(now()) @map(name: "created_at")
 
     @@map(name: "unverified_users")
 }
