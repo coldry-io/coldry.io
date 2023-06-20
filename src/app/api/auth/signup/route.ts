@@ -42,8 +42,9 @@ export async function POST(request: NextRequest) {
     const user = await prisma.unVerifiedUser.create({
       data: {
         email,
-        name: `${firstName} ${lastName}`,
-        hashedPassword
+        givenName: firstName,
+        familyName: lastName,
+        password: hashedPassword
       }
     });
 

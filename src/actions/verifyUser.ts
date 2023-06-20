@@ -26,10 +26,12 @@ export default async function verifyUser(token: string) {
       prisma.user.create({
         data: {
           email: unverifiedUser.email,
-          name: unverifiedUser.name,
-          hashedPassword: unverifiedUser.hashedPassword,
+          givenName: unverifiedUser.givenName,
+          familyName: unverifiedUser.familyName,
+          password: unverifiedUser.password,
           emailVerified: new Date(Date.now()),
-          createdAt: unverifiedUser.createdAt
+          createdAt: unverifiedUser.createdAt,
+          updatedAt: new Date(Date.now())
         }
       }),
       prisma.unVerifiedUser.delete({
