@@ -13,11 +13,37 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      profile: (profile) => {
+        return {
+          id: profile.sub,
+          givenName: profile.given_name,
+          familyName: profile.family_name,
+          email: profile.email,
+          emailVerified: profile.email_verified,
+          image: profile.picture
+        };
+      }
     }),
     LinkedInProvider({
       clientId: env.LINKEDIN_CLIENT_ID,
       clientSecret: env.LINKEDIN_CLIENT_SECRET,
+      profile: async (profile, tokens) => {
+        const emailResponse = await fetch(
+          'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
+          { headers: { Authorization: `Bearer ${tokens.access_token}` } }
+        );
+        const emailData = await emailResponse.json();
+
+        return {
+          id: profile.id,
+          givenName: profile.localizedFirstName,
+          familyName: profile.localizedLastName,
+          email: emailData?.elements?.[0]?.['handle~']?.emailAddress,
+          image:
+            profile.profilePicture?.['displayImage~']?.elements?.[0]?.identifiers?.[0]?.identifier
+        };
+      },
       checks: ['none']
     }),
     CredentialsProvider({
@@ -35,9 +61,9 @@ export const authOptions: NextAuthOptions = {
           }
         });
 
-        if (!user || !user?.hashedPassword) return null;
+        if (!user || !user?.password) return null;
 
-        const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
+        const isCorrectPassword = await bcrypt.compare(credentials.password, user.password);
 
         if (!isCorrectPassword) return null;
 
@@ -49,7 +75,8 @@ export const authOptions: NextAuthOptions = {
     session: async ({ token, session }) => {
       if (token) {
         session.user.id = token.id;
-        session.user.name = token.name;
+        session.user.givenName = token.givenName;
+        session.user.familyName = token.familyName;
         session.user.email = token.email;
         session.user.image = token.picture;
       }
@@ -71,7 +98,8 @@ export const authOptions: NextAuthOptions = {
 
       return {
         id: currentUser.id,
-        name: currentUser.name,
+        givenName: currentUser.givenName,
+        familyName: currentUser.familyName,
         email: currentUser.email,
         picture: currentUser.image
       };
