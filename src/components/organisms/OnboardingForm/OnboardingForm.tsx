@@ -110,7 +110,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Select your integrations</CardTitle>
-          <CardDescription>You can always chance this later from your dashboard</CardDescription>
+          <CardDescription>You can always change this later from your dashboard</CardDescription>
         </CardHeader>
 
         <CardContent className={cn('grid gap-4', className)} {...props}>
