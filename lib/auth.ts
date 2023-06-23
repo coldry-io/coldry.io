@@ -79,6 +79,7 @@ export const authOptions: NextAuthOptions = {
         session.user.familyName = token.familyName;
         session.user.email = token.email;
         session.user.image = token.picture;
+        session.user.onboardedAt = token.onboardedAt;
       }
 
       return session;
@@ -101,14 +102,32 @@ export const authOptions: NextAuthOptions = {
         givenName: currentUser.givenName,
         familyName: currentUser.familyName,
         email: currentUser.email,
-        picture: currentUser.image
+        picture: currentUser.image,
+        onboardedAt: currentUser.onboardedAt?.toISOString()
       };
     },
     redirect: ({ url, baseUrl }) => {
       return url.startsWith(baseUrl) ? url : baseUrl;
     }
   },
-
+  events: {
+    createUser: async ({ user }) => {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          plan: {
+            connect: {
+              id: await prisma.plan
+                .findFirst({
+                  where: { name: 'Free' }
+                })
+                .then((plan) => plan?.id)
+            }
+          }
+        }
+      });
+    }
+  },
   pages: {
     signIn: '/login',
     newUser: '/onboarding'

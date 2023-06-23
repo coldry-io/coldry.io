@@ -9,6 +9,7 @@ declare module 'next-auth' {
       id: UserId;
       familyName?: string | null;
       givenName?: string | null;
+      onboardedAt?: string | null;
     };
   }
 }
@@ -18,5 +19,6 @@ declare module 'next-auth/jwt' {
     id: UserId;
     familyName?: string | null;
     givenName?: string | null;
+    onboardedAt?: string | null;
   }
 }
