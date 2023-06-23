@@ -19,14 +19,15 @@ import {
 interface UserNavProps {
   user: User & {
     id: string;
-    username?: string | null | undefined;
+    givenName?: string | null | undefined;
+    familyName?: string | null | undefined;
   };
 }
 
 const UserNav: React.FC<UserNavProps> = ({ user }) => {
   const router = useRouter();
 
-  const getAvatarFallback = () => user.name?.substring(0, 1) ?? user.username?.substring(0, 1);
+  const getAvatarFallback = () => user.givenName?.substring(0, 1) ?? user.email?.substring(0, 1);
 
   return (
     <DropdownMenu>
@@ -44,7 +45,9 @@ const UserNav: React.FC<UserNavProps> = ({ user }) => {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
+            <p className="text-sm font-medium leading-none">
+              {user.givenName} {user.familyName}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>

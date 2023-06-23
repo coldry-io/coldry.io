@@ -31,7 +31,16 @@ export default async function verifyUser(token: string) {
           password: unverifiedUser.password,
           emailVerified: new Date(Date.now()),
           createdAt: unverifiedUser.createdAt,
-          updatedAt: new Date(Date.now())
+          updatedAt: new Date(Date.now()),
+          plan: {
+            connect: {
+              id: await prisma.plan
+                .findFirst({
+                  where: { name: 'Free' }
+                })
+                .then((plan) => plan?.id)
+            }
+          }
         }
       }),
       prisma.unVerifiedUser.delete({

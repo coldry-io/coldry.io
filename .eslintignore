@@ -3,3 +3,4 @@
 **/.next/*
 coverage
 src/styles/globals.css
+deploy.*

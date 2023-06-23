@@ -40,8 +40,13 @@ model User {
     emailVerified DateTime? @map(name: "email_verified")
     password      String?
     image         String?
+    creditsUsed   Int       @default(0) @map(name: "credits_used")
     createdAt     DateTime  @default(now()) @map(name: "created_at")
     updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+    onboardedAt   DateTime? @map(name: "onboarded_at")
+
+    // Integration
+    integrations Integrations[]
 
     // Account
     accounts Account[]
@@ -75,16 +80,25 @@ model UnVerifiedUser {
     @@map(name: "unverified_users")
 }
 
-model Plan {
-    id             String @id @default(auto()) @map("_id") @db.ObjectId
-    name           String
-    price          Int
-    credits        Int
-    creditsUsed    Int
-    overageCredits Int
+model Integrations {
+    id    String @id @default(auto()) @map("_id") @db.ObjectId
+    name  String @unique
+    image String
 
-    users User[]
-    teams Team[]
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String? @db.ObjectId
+
+    @@map(name: "integrations")
+}
+
+model Plan {
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    name    String @unique
+    price   Int
+    credits Int
+
+    Users User[]
+    Teams Team[]
 
     @@map(name: "plans")
 }
@@ -93,7 +107,7 @@ model Team {
     id             String   @id @default(auto()) @map("_id") @db.ObjectId
     name           String
     members        User[]
-    pendingMembers String[]
+    pendingMembers String[] @map(name: "pending_members")
 
     planId String @db.ObjectId
     plan   Plan?  @relation(fields: [planId], references: [id])
