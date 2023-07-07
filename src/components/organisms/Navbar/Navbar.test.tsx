@@ -10,7 +10,7 @@ describe('Navbar', () => {
 
     // TEST: Navbar renders with logo and buttons
     screen.getByRole('img', { name: 'Coldry Logo' });
-    screen.getByRole('button', { name: 'Login' });
+    screen.getByRole('button', { name: 'Log In' });
     screen.getByRole('button', { name: 'Sign Up' });
     screen.getByRole('navigation');
   });

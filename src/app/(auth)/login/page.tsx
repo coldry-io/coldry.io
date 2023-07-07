@@ -9,8 +9,8 @@ import { UserAuthForm } from '@/components/organisms/UserAuthForm';
 import { getAuthSession } from '@/lib/auth';
 
 export const metadata: Metadata = {
-  title: 'Login',
-  description: 'Log in to your account'
+  title: 'Log In',
+  description: 'Log into your account'
 };
 
 export default async function LoginPage({

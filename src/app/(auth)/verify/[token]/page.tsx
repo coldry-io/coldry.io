@@ -28,7 +28,7 @@ export default async function VerifyPage({ params: { token } }: VerifyPageProps)
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Welcome</CardTitle>
           <CardDescription>
-            Your account has been verified. You can now login to your account.
+            Your account has been verified. You can now log into your account.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center gap-2">
@@ -39,7 +39,7 @@ export default async function VerifyPage({ params: { token } }: VerifyPageProps)
             href="/login"
             className="inline-flex h-10 items-center justify-center rounded-md bg-coldry-blue px-4 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-coldry-blue/90 disabled:pointer-events-none disabled:opacity-50 md:px-16"
           >
-            Login
+            Log In
           </Link>
         </CardContent>
       </Card>

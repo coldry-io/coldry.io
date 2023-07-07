@@ -104,7 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ session }) => {
                 }}
                 className="border border-coldry-black bg-transparent text-coldry-black hover:bg-coldry-black hover:text-coldry-white"
               >
-                Login
+                Log In
               </Button>
               <Button
                 onClick={() => {
@@ -155,7 +155,7 @@ const Navbar: React.FC<NavbarProps> = ({ session }) => {
                 }}
                 className="w-full border border-coldry-black bg-transparent text-coldry-black hover:bg-coldry-black hover:text-coldry-white"
               >
-                Login
+                Log In
               </Button>
               <Button
                 onClick={() => {
