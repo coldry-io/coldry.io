@@ -5,7 +5,8 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['cdn.dribbble.com', 'lh3.googleusercontent.com']
-  }
+  },
+  output: 'standalone'
 };
 
 export default nextConfig;
