@@ -11,7 +11,7 @@ describe('UserAuthForm', () => {
     // TEST: Check if the login version of the userauthform is rendered
     screen.getByRole('button', { name: /LinkedIn/i });
     screen.getByRole('button', { name: /Google/i });
-    screen.getByRole('button', { name: /Login/i });
+    screen.getByRole('button', { name: /Log In/i });
 
     expect(screen.getByText('Email')).toBeInTheDocument();
     screen.getByPlaceholderText('example@mail.com');

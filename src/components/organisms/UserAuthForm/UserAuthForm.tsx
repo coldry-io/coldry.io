@@ -321,7 +321,7 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
           {isLoading === LoadingType.FORM && (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           )}
-          {type === 'login' ? 'Login' : 'Create account'}
+          {type === 'login' ? 'Log In' : 'Create account'}
         </Button>
 
         {type === 'login' ? (
@@ -341,7 +341,7 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({ type, className, ...props }
               className="text-coldry-blue transition-colors duration-300 hover:text-coldry-black"
               href="/login"
             >
-              Login
+              Log In
             </Link>
           </p>
         )}
