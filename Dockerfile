@@ -38,4 +38,10 @@ USER stage
 # Expose port 3000 and generate prisma client
 EXPOSE 3000
 
+# Enable restart policy
 CMD ["node", "server.js"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000/api/health || \
+    curl -X POST --data-urlencode \
+    "payload={\"channel\": \"#deployment\", \"username\": \"Coldry Health Check\", \"text\": \"Health check failed for container: coldry.live\", \"icon_emoji\": \":X:\"}" \
+    $SLACK_HOOK_URL
