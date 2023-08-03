@@ -6,111 +6,113 @@ generator client {
 }
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
 model Account {
-    id                String   @id @default(auto()) @map("_id") @db.ObjectId
-    userId            String   @db.ObjectId
+    id                String  @id @default(cuid())
+    userId            String
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String?  @db.String
-    access_token      String?  @db.String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String?  @db.String
+    id_token          String? @db.Text
     session_state     String?
-    createdAt         DateTime @default(now()) @map(name: "created_at")
-    updatedAt         DateTime @default(now()) @map(name: "updated_at")
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
-    @@map(name: "accounts")
+    @@index([userId])
+    @@map("accounts")
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
-    givenName     String?   @map(name: "given_name")
-    familyName    String?   @map(name: "family_name")
+    id            String    @id @default(cuid())
+    givenName     String?   @map("given_name")
+    familyName    String?   @map("family_name")
     email         String?   @unique
-    emailVerified DateTime? @map(name: "email_verified")
+    emailVerified DateTime? @map("email_verified")
     password      String?
     image         String?
-    creditsUsed   Int       @default(0) @map(name: "credits_used")
-    createdAt     DateTime  @default(now()) @map(name: "created_at")
-    updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-    onboardedAt   DateTime? @map(name: "onboarded_at")
+    creditsUsed   Int       @default(0) @map("credits_used")
+    createdAt     DateTime  @default(now()) @map("created_at")
+    updatedAt     DateTime  @updatedAt @map("updated_at")
+    onboardedAt   DateTime? @map("onboarded_at")
 
-    // Integration
+    // Integrations
     integrations Integrations[]
 
-    // Account
+    // Acount
     accounts Account[]
 
     // Plan
-    planId String? @db.ObjectId
-    plan   Plan?   @relation(fields: [planId], references: [id])
+    planId String? @map("plan_id")
+    plan   Plan?   @relation(fields: [planId], references: [id], onDelete: SetNull)
 
     // Team
-    teamId String? @db.ObjectId
-    Team   Team?   @relation(fields: [planId], references: [id])
+    teamId String? @map("team_id")
+    team   Team?   @relation(fields: [teamId], references: [id], onDelete: SetNull)
 
     // Stripe
-    stripeCustomerId       String?   @map(name: "stripe_customer_id")
-    stripeSubscriptionId   String?   @map(name: "stripe_subscription_id")
-    stripePriceId          String?   @map(name: "stripe_price_id")
-    stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+    stripeCustomerId       String?   @map("stripe_customer_id")
+    stripeSubscriptionId   String?   @map("stripe_subscription_id")
+    stripePriceId          String?   @map("stripe_price_id")
+    stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
 
     @@unique([email, stripeCustomerId, stripeSubscriptionId])
-    @@map(name: "users")
+    @@index([planId])
+    @@index([teamId])
+    @@map("users")
 }
 
 model UnVerifiedUser {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    givenName  String?  @map(name: "given_name")
-    familyName String?  @map(name: "family_name")
+    id         String   @id @default(cuid())
+    givenName  String?  @map("given_name")
+    familyName String?  @map("family_name")
     email      String?  @unique
     password   String?
-    createdAt  DateTime @default(now()) @map(name: "created_at")
+    createdAt  DateTime @default(now()) @map("created_at")
 
-    @@map(name: "unverified_users")
+    @@map("unverified_users")
 }
 
 model Integrations {
-    id    String @id @default(auto()) @map("_id") @db.ObjectId
-    name  String @unique
-    image String
-
+    id     String  @id @default(cuid())
+    name   String  @unique
+    url    String
+    image  Bytes   @db.Blob
     User   User?   @relation(fields: [userId], references: [id])
-    userId String? @db.ObjectId
+    userId String?
 
-    @@map(name: "integrations")
+    @@index([userId])
+    @@map("integrations")
 }
 
 model Plan {
-    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    id      String @id @default(cuid())
     name    String @unique
     price   Int
     credits Int
+    User    User[]
+    Team    Team[]
 
-    Users User[]
-    Teams Team[]
-
-    @@map(name: "plans")
+    @@map("plans")
 }
 
 model Team {
-    id             String   @id @default(auto()) @map("_id") @db.ObjectId
-    name           String
-    members        User[]
-    pendingMembers String[] @map(name: "pending_members")
+    id      String @id @default(cuid())
+    name    String @unique
+    members User[]
 
-    planId String @db.ObjectId
-    plan   Plan?  @relation(fields: [planId], references: [id])
+    planId String? @map("plan_id")
+    plan   Plan?   @relation(fields: [planId], references: [id], onDelete: SetNull)
 
-    @@map(name: "teams")
+    @@index([planId])
+    @@map("teams")
 }

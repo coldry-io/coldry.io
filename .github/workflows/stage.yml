@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    pull_request:
+      types:
+        - closed
 
   workflow_run:
     workflows: ['Formatting - Tests - Builds']
@@ -13,7 +16,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.workflow_run.conclusion == 'success' }}
     env:
       REPOSITORY_URL: docker.pkg.github.com
       IMAGE_NAME: ${{ secrets.DOCKERHUB_LOGIN }}/coldry-stage

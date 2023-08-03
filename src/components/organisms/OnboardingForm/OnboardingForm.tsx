@@ -105,6 +105,9 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
     router.push('/dashboard');
   };
 
+  const getImage = (image: Buffer) =>
+    `data:image/png;base64,${Buffer.from(image).toString('base64')}`;
+
   if (currentStep == OnboardingStep.INTEGRATIONS) {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,7 +127,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({
               >
                 <div className="relative h-8 w-10">
                   <Image
-                    src={`data:image/png;base64,${integration.image}`}
+                    src={getImage(integration.image)}
                     className="pointer-events-none object-contain"
                     alt={integration.name}
                     fill
