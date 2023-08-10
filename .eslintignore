@@ -4,3 +4,4 @@
 coverage
 src/styles/globals.css
 deploy.*
+storybook-static/*

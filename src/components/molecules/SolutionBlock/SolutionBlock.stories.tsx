@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SolutionBlock } from '.';
+import SolutionBlock from '.';
 
 export default {
   title: 'Molecules/SolutionBlock',

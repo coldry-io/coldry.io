@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Platform } from '.';
+import Platform from '.';
 
 export default {
   title: 'Molecules/Platform',
