@@ -1,5 +1,6 @@
 'use client';
 
+import demo from '@/public/images/demo.gif';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -10,41 +11,42 @@ const Hero: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }) => 
 
   return (
     <div
-      className="flex flex-col gap-6 space-y-6 p-4 pb-16 pt-[4.75rem] sm:p-10 xl:flex-row xl:gap-2 2xl:gap-6"
+      className="container flex min-h-screen w-full flex-col justify-center gap-8 lg:mx-auto lg:grid lg:grid-cols-2 lg:items-center lg:px-8 lg:py-5"
       {...props}
     >
       {/* Left Side */}
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-        <div className="flex-1 px-6 pt-4 xl:pt-36 2xl:px-0">
-          <h1 className="text-4xl font-extrabold sm:text-5xl 2xl:text-6xl">
-            Revolutionize your <span className="text-coldry-blue">cold email</span> strategy
-          </h1>
+      <div className="">
+        <h1 className="text-4xl font-semibold lg:text-5xl">
+          Elevate your sales and client experience efforts
+        </h1>
 
-          <p className="text-black-100 mt-5 text-xl font-light sm:text-2xl">
-            Unlock the power of artificial intelligence for your cold email execution. Coldry is the
-            ultimate tool for efficient, targeted, and effective outreach.
-          </p>
+        <p className="mb-8 mt-4 w-11/12 text-lg text-gray-700">
+          Revolutionize your cold email outreach.
+        </p>
 
+        <div className="flex gap-4">
           <Button
             title="Get Started"
-            className="text-md mt-4 transform py-6 font-semibold uppercase transition-all duration-300 hover:scale-[1.02] hover:shadow-lg md:text-lg"
+            className="transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
             onClick={() => router.push('/signup')}
           >
             Get Started Now
+          </Button>
+          <Button
+            title="Learn More"
+            className="transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+            variant="secondary"
+            onClick={() => router.push('/contact')}
+          >
+            Download Extension
           </Button>
         </div>
       </div>
 
       {/* Right Side */}
-      {/* TODO: Fill with proper image */}
-      <div className="flex w-full justify-center">
-        <div className="relative z-0 -mt-20 h-[590px] w-full md:mt-0 xl:mt-20 xl:h-full xl:w-full">
-          <Image
-            src="https://cdn.dribbble.com/userupload/5366143/file/original-656f6da20450c1722a342fbc7ecbc6b3.png?compress=1&resize=1600x1200"
-            fill
-            alt="hero image"
-            className="object-contain"
-          />
+      <div className="">
+        <div className="relative h-96 w-full lg:min-h-screen">
+          <Image src={demo} fill alt="Demo Video" className="object-contain" />
         </div>
       </div>
     </div>
