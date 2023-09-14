@@ -1,13 +1,22 @@
 import google from '@/public/images/google-logo.png';
 import linkedin from '@/public/images/In-Blue-128@2x.png';
 import logo from '@/public/logo.png';
-import { ChevronLeft, Loader2, MailCheck, Menu, X, type Icon as LucideIcon } from 'lucide-react';
+import {
+  Check,
+  ChevronLeft,
+  Loader2,
+  MailCheck,
+  Menu,
+  X,
+  type Icon as LucideIcon
+} from 'lucide-react';
 import Image from 'next/image';
 
 export type Icon = LucideIcon;
 
 export const Icons = {
   check: MailCheck,
+  checkMark: Check,
   chevronLeft: ChevronLeft,
   close: X,
   hamburger: Menu,

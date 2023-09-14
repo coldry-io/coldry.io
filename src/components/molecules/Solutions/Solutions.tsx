@@ -23,8 +23,9 @@ const Solutions: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }
         </h3>
 
         <motion.div
-          initial={{ opacity: 0, translateX: -200, motion: 'easeInOut', descent: 0, speed: 0.2 }}
-          whileInView={{ opacity: 1, translateX: 0 }}
+          initial={{ opacity: 0, motion: 'easeInOut', descent: 0, speed: 0.2 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.2, delay: 0 }}
         >
           <SolutionBlock
             icon={<BadgeDollarSign size={84} />}
@@ -33,8 +34,9 @@ const Solutions: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }
           />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, translateX: -200, motion: 'easeInOut', descent: 0, speed: 0.2 }}
-          whileInView={{ opacity: 1, translateX: 0 }}
+          initial={{ opacity: 0, motion: 'easeInOut', descent: 0, speed: 0.2 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.2, delay: 0.2 }}
         >
           <SolutionBlock
             icon={<HelpingHand size={84} />}
@@ -43,8 +45,9 @@ const Solutions: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }
           />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, translateX: 200, motion: 'easeInOut', descent: 0, speed: 0.2 }}
-          whileInView={{ opacity: 1, translateX: 0 }}
+          initial={{ opacity: 0, motion: 'easeInOut', descent: 0, speed: 0.2 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.2, delay: 0.4 }}
         >
           <SolutionBlock
             icon={<Workflow size={84} />}
@@ -53,8 +56,9 @@ const Solutions: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }
           />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, translateX: 200, motion: 'easeInOut', descent: 0, speed: 0.2 }}
-          whileInView={{ opacity: 1, translateX: 0 }}
+          initial={{ opacity: 0, motion: 'easeInOut', descent: 0, speed: 0.2 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.2, delay: 0.5 }}
         >
           <SolutionBlock
             icon={<Workflow size={84} />}

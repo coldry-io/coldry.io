@@ -1,5 +1,6 @@
 import Hero from '@/components/molecules/Hero/Hero';
 import Platform from '@/components/molecules/Platform/Platform';
+import { Pricing } from '@/components/molecules/Pricing';
 import Solutions from '@/components/molecules/Solutions';
 
 const HomePage = () => (
@@ -7,6 +8,7 @@ const HomePage = () => (
     <Hero />
     <Solutions />
     <Platform />
+    <Pricing />
   </div>
 );
 
