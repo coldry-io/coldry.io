@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const Platform: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }) => {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center" id="platform">
       <div
         className="container flex w-full flex-col gap-4 lg:mx-auto lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-12 lg:gap-y-20 lg:px-8 lg:py-5"
         {...props}

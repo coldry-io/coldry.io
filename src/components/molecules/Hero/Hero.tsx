@@ -1,5 +1,6 @@
 'use client';
 
+import chrome from '@/public/images/chrome-logo.svg';
 import demo from '@/public/images/demo.gif';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -34,11 +35,12 @@ const Hero: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }) => 
           </Button>
           <Button
             title="Learn More"
-            className="transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+            className="flex gap-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
             variant="secondary"
             onClick={() => router.push('/contact')}
           >
-            Download Extension
+            <Image src={chrome} width={20} height={20} alt="Chrome Logo" />{' '}
+            <p>Download Extension</p>
           </Button>
         </div>
       </div>
