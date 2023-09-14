@@ -33,9 +33,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
     <html lang="en" className={cn('bg-white text-slate-900 antialiased', inter.className)}>
       <body className="min-h-screen bg-white pt-12 antialiased" suppressHydrationWarning>
         <Navbar session={session} />
-        <div className="container mx-auto h-full max-w-7xl px-4 pt-8 md:px-0 md:pt-12">
-          {children}
-        </div>
+        <div className="mx-auto h-full px-4 md:px-0">{children}</div>
 
         <TailwindIndicator />
         <Toaster />

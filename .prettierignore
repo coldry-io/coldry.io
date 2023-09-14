@@ -6,3 +6,4 @@ coverage
 .gitkeep
 *.hbs
 *.snap
+storybook-static
