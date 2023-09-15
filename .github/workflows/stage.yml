@@ -1,12 +1,7 @@
 name: Stage via Docker Build and Push
 
 on:
-  push:
-    branches:
-      - master
-    pull_request:
-      types:
-        - closed
+  workflow_dispatch:
 
   workflow_run:
     workflows: ['Formatting - Tests - Builds']
