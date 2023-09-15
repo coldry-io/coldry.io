@@ -25,7 +25,7 @@ const Hero: React.FC<React.HtmlHTMLAttributes<HTMLElement>> = ({ ...props }) => 
           Revolutionize your cold email outreach.
         </p>
 
-        <div className="flex gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:flex">
           <Button
             title="Get Started"
             className="transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
